@@ -4,12 +4,11 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://3781i4rvfqru"
-path="res://.godot/imported/Dodecahedron.fbx-942bea31eed6b32036e44b903a81e4d1.scn"
+valid=false
 
 [deps]
 
 source_file="res://Models/Dodecahedron.fbx"
-dest_files=["res://.godot/imported/Dodecahedron.fbx-942bea31eed6b32036e44b903a81e4d1.scn"]
 
 [params]
 
@@ -35,5 +34,3 @@ _subresources={}
 fbx/importer=1
 fbx/allow_geometry_helper_nodes=false
 fbx/embedded_image_handling=1
-gltf/naming_version=0
-gltf/embedded_image_handling=1
