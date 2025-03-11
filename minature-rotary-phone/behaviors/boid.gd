@@ -160,7 +160,7 @@ func calculate():
 
 func _process(delta):
 	should_calculate = true
-	# pause = false
+	pause = false
 	if draw_gizmos:
 		on_draw_gizmos()
 	if school and count_neighbors:
@@ -180,7 +180,7 @@ func _physics_process(delta):
 		acceleration = force / mass
 		vel += acceleration * delta
 		speed = vel.length()
-		if speed > 0:		
+		if speed > 0:
 			if max_speed == 0:
 				print("max_speed is 0")
 			vel = vel.limit_length(max_speed)
