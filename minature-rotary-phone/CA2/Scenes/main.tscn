@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://cwu0rcewdfymp"]
+
+[ext_resource type="Material" path="res://CA2/Materials/Grass.tres" id="1_50clp"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xkxsl"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fkva2"]
+sky_top_color = Color(0.780392, 0.454902, 0.54902, 1)
+sky_horizon_color = Color(0.647059, 0.654902, 0.0666667, 1)
+ground_bottom_color = Color(0.160784, 0.741176, 0.627451, 1)
+ground_horizon_color = Color(0.647059, 0.529412, 0.909804, 1)
+
+[sub_resource type="Sky" id="Sky_2pi00"]
+sky_material = SubResource("ProceduralSkyMaterial_fkva2")
+
+[sub_resource type="Environment" id="Environment_xni22"]
+background_mode = 2
+sky = SubResource("Sky_2pi00")
+
+[node name="Main" type="Node3D"]
+
+[node name="Floor" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Floor"]
+size = Vector3(50, 0.2, 50)
+material = ExtResource("1_50clp")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor/CSGBox3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/CSGBox3D/StaticBody3D"]
+transform = Transform3D(50, 0, 0, 0, 0.3, 0, 0, 0, 50, 0, 0, 0)
+shape = SubResource("BoxShape3D_xkxsl")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_xni22")
