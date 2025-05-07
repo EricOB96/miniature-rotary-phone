@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cx3f6y3hv22x4"]
+[gd_scene load_steps=5 format=3 uid="uid://cx3f6y3hv22x4"]
 
 [ext_resource type="Script" uid="uid://1ew1x1sht62k" path="res://CA2/Scripts/XR_setup.gd" id="1_10j6m"]
 [ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="2_vuj32"]
 [ext_resource type="PackedScene" uid="uid://l2n30mpbkdyw" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" id="3_dtpkc"]
+[ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="3_vuj32"]
 
 [node name="Player" type="Node3D"]
 script = ExtResource("1_10j6m")
@@ -16,7 +17,14 @@ tracker = &"left_hand"
 
 [node name="LeftHand" parent="XROrigin3D/LeftHandController" instance=ExtResource("2_vuj32")]
 
+[node name="FunctionPickup" parent="XROrigin3D/LeftHandController" instance=ExtResource("3_vuj32")]
+grab_collision_mask = 327687
+ranged_collision_mask = 7
+
 [node name="RightHandController" type="XRController3D" parent="XROrigin3D"]
 tracker = &"right_hand"
 
 [node name="RightHand" parent="XROrigin3D/RightHandController" instance=ExtResource("3_dtpkc")]
+
+[node name="FunctionPickup" parent="XROrigin3D/RightHandController" instance=ExtResource("3_vuj32")]
+grab_collision_mask = 327687

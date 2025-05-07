@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://cwu0rcewdfymp"]
+[gd_scene load_steps=9 format=3 uid="uid://cwu0rcewdfymp"]
 
 [ext_resource type="Material" uid="uid://5wbp50yxowyo" path="res://CA2/Materials/Grass.tres" id="1_50clp"]
 [ext_resource type="PackedScene" uid="uid://cx3f6y3hv22x4" path="res://CA2/Scenes/Player.tscn" id="2_xkxsl"]
 [ext_resource type="PackedScene" uid="uid://du25344dwanbo" path="res://CA2/Scenes/FoodHolder.tscn" id="3_fkva2"]
+[ext_resource type="PackedScene" uid="uid://c0v7sptihwlsq" path="res://CA2/Scenes/Food.tscn" id="4_2pi00"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_50clp"]
 
@@ -31,6 +32,7 @@ material = ExtResource("1_50clp")
 [node name="StaticBody3D" type="StaticBody3D" parent="Floor/CSGBox3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/CSGBox3D/StaticBody3D"]
+transform = Transform3D(50, 0, 0, 0, 0.3, 0, 0, 0, 50, 0, 0, 0)
 shape = SubResource("BoxShape3D_50clp")
 debug_fill = false
 
@@ -38,6 +40,12 @@ debug_fill = false
 environment = SubResource("Environment_xni22")
 
 [node name="Player" parent="." instance=ExtResource("2_xkxsl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.233293, 0)
 
 [node name="FoodHolder" parent="." instance=ExtResource("3_fkva2")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.01544, 0.327053, 0)
+
+[node name="Foods" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.150198, 0.86062, -0.429721)
+
+[node name="Food" parent="Foods" instance=ExtResource("4_2pi00")]
