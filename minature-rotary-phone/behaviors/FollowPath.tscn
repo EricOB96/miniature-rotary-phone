@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cmw6n17mebkcx" path="res://behaviors/boid.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://ivslos3b7cmv" path="res://behaviors/player.tscn" id="2_8tx2n"]
-[ext_resource type="Script" uid="uid://s5pb8njisohn" path="res://behaviors/avoidance.gd" id="4"]
+[ext_resource type="Script" uid="uid://s5pb8njisohn" path="res://behaviors/Avoidance.gd" id="4"]
 [ext_resource type="Script" uid="uid://blhpcqstd5fde" path="res://behaviors/trail_renderer.gd" id="5"]
 [ext_resource type="PackedScene" uid="uid://okvro62ssxp" path="res://Models/cobramk3_out/cobramk3.gltf" id="6"]
 [ext_resource type="PackedScene" uid="uid://dc24oh4o5erhi" path="res://behaviors/SceneSwitcher.tscn" id="7"]

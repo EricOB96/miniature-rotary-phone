@@ -1,9 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://cwu0rcewdfymp"]
+[gd_scene load_steps=15 format=3 uid="uid://cwu0rcewdfymp"]
 
 [ext_resource type="Material" uid="uid://5wbp50yxowyo" path="res://CA2/Materials/Grass.tres" id="1_50clp"]
 [ext_resource type="PackedScene" uid="uid://cx3f6y3hv22x4" path="res://CA2/Scenes/Player.tscn" id="2_xkxsl"]
 [ext_resource type="PackedScene" uid="uid://du25344dwanbo" path="res://CA2/Scenes/FoodHolder.tscn" id="3_fkva2"]
 [ext_resource type="PackedScene" uid="uid://c0v7sptihwlsq" path="res://CA2/Scenes/Food.tscn" id="4_2pi00"]
+[ext_resource type="Script" uid="uid://bfoar4ahwpbra" path="res://behaviors/PathDrawer.gd" id="5_xni22"]
+[ext_resource type="Script" uid="uid://cmw6n17mebkcx" path="res://behaviors/boid.gd" id="6_f1ecy"]
+[ext_resource type="PackedScene" uid="uid://bohffpj2s0uhl" path="res://CA2/Scenes/Bird.tscn" id="6_xhof7"]
+[ext_resource type="Script" uid="uid://b6jj7yxhu2hi1" path="res://behaviors/follow_path.gd" id="7_ojqdo"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2pi00"]
 size = Vector3(50, 0.3, 50)
@@ -20,6 +24,16 @@ sky_material = SubResource("ProceduralSkyMaterial_fkva2")
 [sub_resource type="Environment" id="Environment_xni22"]
 background_mode = 2
 sky = SubResource("Sky_2pi00")
+
+[sub_resource type="Curve3D" id="Curve3D_xhof7"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 9.6917, 0, -17.5176, 0.395, 0, 0, 0, 0, 0, 18.845, 0, 0, 0, 0, 0, 0, 0, 0, -21.2898, 0, 0, 0, 0, 0, 0, 0, 0, 3.13, 11.2917, 7.172, 0, 0, 0, 0, 0, 0, 1.65355, 3.45621, -17.1298),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y1fyk"]
+size = Vector3(1, 1.21484, 2.29834)
 
 [node name="Main" type="Node3D"]
 
@@ -50,3 +64,23 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.01544, 0.327053, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.150198, 0.86062, -0.429721)
 
 [node name="Food" parent="Foods" instance=ExtResource("4_2pi00")]
+
+[node name="Path3D" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.02797, 1.89218)
+curve = SubResource("Curve3D_xhof7")
+script = ExtResource("5_xni22")
+
+[node name="boid" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.88116, -3.91761)
+script = ExtResource("6_f1ecy")
+
+[node name="FollowPath2" type="Node" parent="boid" node_paths=PackedStringArray("path")]
+script = ExtResource("7_ojqdo")
+path = NodePath("../../Path3D")
+
+[node name="Bird" parent="boid" instance=ExtResource("6_xhof7")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="boid"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.880859, -0.64917)
+shape = SubResource("BoxShape3D_y1fyk")
+disabled = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bohffpj2s0uhl"]
+[gd_scene load_steps=10 format=3 uid="uid://bohffpj2s0uhl"]
 
 [ext_resource type="Material" uid="uid://b5tih3jl5dr05" path="res://CA2/Materials/Bird_body.tres" id="1_bkjw8"]
 [ext_resource type="Material" uid="uid://oanc0v7okxgh" path="res://CA2/Materials/Beak.tres" id="2_8eq8b"]
@@ -6,46 +6,76 @@
 [ext_resource type="Script" uid="uid://bb475dsswmiyu" path="res://behaviors/spine_animator.gd" id="4_8eq8b"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_cg440"]
-size = Vector3(2.41612, 1.54858, 2.37402)
+size = Vector3(0.588257, 0.6, 0.7)
 
-[node name="Bird" type="CharacterBody3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_8eq8b"]
+size = Vector3(0.894409, 0.193787, 0.287109)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.639584, -0.487431)
-shape = SubResource("BoxShape3D_cg440")
+[sub_resource type="BoxShape3D" id="BoxShape3D_h6rxl"]
+size = Vector3(1, 0.182617, 0.242188)
 
-[node name="Head" type="Node3D" parent="."]
+[sub_resource type="BoxShape3D" id="BoxShape3D_qa3pc"]
+size = Vector3(0.479492, 0.478531, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ygclh"]
+size = Vector3(1.03717, 0.206055, 0.618347)
+
+[node name="Bird" type="Node3D"]
+
+[node name="SpineAnimator" type="Node" parent="." node_paths=PackedStringArray("bones")]
+script = ExtResource("4_8eq8b")
+bones = [NodePath("../WingLeft"), NodePath("../WingRight")]
+metadata/_custom_type_script = "uid://bb475dsswmiyu"
+
+[node name="boid" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.746728, 0)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Head"]
+[node name="CSGBox3D" type="CSGBox3D" parent="boid"]
 size = Vector3(0.5, 0.5, 0.5)
 material = ExtResource("1_bkjw8")
 
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Head"]
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="boid"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.487185)
 radius = 0.199
 height = 0.47
 cone = true
 material = ExtResource("2_8eq8b")
 
-[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Head"]
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="boid"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.485203, -0.677021, -0.249875)
 polygon = PackedVector2Array(0.216061, 0.213476, 0.303457, 0.823252, 0.67247, 0.823779, 0.759657, 0.228915)
 material = ExtResource("1_bkjw8")
 
-[node name="Wings" type="Node3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="boid"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00946045, 0.079111, 0.198253)
+visible = false
+shape = SubResource("BoxShape3D_cg440")
 
-[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Wings"]
-transform = Transform3D(0.984384, 0.176037, 0, -0.176037, 0.984384, 0, 0, 0, 1, -0.953695, 0.728769, -0.411378)
-polygon = PackedVector2Array(-0.412029, 0.0294766, 0.521402, 0.201367, 0.53579, 0.191359, 0.845066, 0.140185)
-depth = 0.32
+[node name="WingLeft" type="CharacterBody3D" parent="."]
 
-[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="Wings"]
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="WingLeft"]
 transform = Transform3D(-0.984503, -0.175367, -8.74228e-08, -0.175367, 0.984503, 0, 8.6068e-08, 1.5331e-08, -1, 0.914937, 0.729, -0.735)
 polygon = PackedVector2Array(-0.412029, 0.0294766, 0.521402, 0.201367, 0.53579, 0.191359, 0.845066, 0.140185)
 depth = 0.32
 
-[node name="Legs" type="Node3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WingLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.895524, 0.794421, -0.565008)
+visible = false
+shape = SubResource("BoxShape3D_8eq8b")
+
+[node name="WingRight" type="CharacterBody3D" parent="."]
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="WingRight"]
+transform = Transform3D(0.984503, 0.175367, 0, -0.175367, 0.984503, 0, 0, 0, 1, -0.827855, 0.717502, -0.451452)
+polygon = PackedVector2Array(-0.412029, 0.0294766, 0.521402, 0.201367, 0.53579, 0.191359, 0.845066, 0.140185)
+depth = 0.32
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WingRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.859213, 0.798822, -0.561501)
+visible = false
+shape = SubResource("BoxShape3D_h6rxl")
+
+[node name="Legs" type="CharacterBody3D" parent="."]
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="Legs"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.182019, 0.0479272, -0.930278)
@@ -59,14 +89,19 @@ radius = 0.079
 height = 0.47
 material = ExtResource("3_cg440")
 
-[node name="Tail" type="Node3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Legs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00927734, 0.0374883, -0.889923)
+visible = false
+shape = SubResource("BoxShape3D_qa3pc")
+
+[node name="Tail" type="CharacterBody3D" parent="."]
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="Tail"]
 transform = Transform3D(0.707107, -0.707107, 0, 0.491171, 0.491171, 0.719376, -0.508676, -0.508676, 0.694621, -0.0442182, 0.530093, -1.17546)
 polygon = PackedVector2Array(0, 0, 0.475778, 0.823126, 0.506638, 0.322407, 1.07498, 0.107085)
 depth = 0.09
 
-[node name="SpineAnimator" type="Node" parent="." node_paths=PackedStringArray("bones")]
-script = ExtResource("4_8eq8b")
-bones = [NodePath("../Wings/CSGPolygon3D"), NodePath("../Wings/CSGPolygon3D2")]
-metadata/_custom_type_script = "uid://bb475dsswmiyu"
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tail"]
+transform = Transform3D(1, 0, 0, 0, 0.72363, -0.690188, 0, 0.690188, 0.72363, 0.151459, 0.918363, -1.57504)
+visible = false
+shape = SubResource("BoxShape3D_ygclh")

@@ -6,6 +6,14 @@ class_name SpineAnimator extends Node
 				
 var offsets = [] 
 
+#For Bird flapping wings
+@export var enable_flapping: bool = true
+@export var flap_speed: float = 3.0
+@export var flap_amplitude: float = 0.5
+@export var left_flap_axis: Vector3 = Vector3(0, 0, 1)  # For left wing
+@export var right_flap_axis: Vector3 = Vector3(0, 0, -1) # For right wing
+var time: float = 0.0
+
 func calculateOffsets():
 	offsets.clear()	
 	for i in bones.size():
@@ -22,13 +30,28 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	time += delta
+	
+	# Apply flapping to BOTH wings if enabled
+	if enable_flapping and bones.size() >= 2:
+		var flap = sin(time * flap_speed) * flap_amplitude
+		
+		# Apply to left wing (bone[0])
+		var left_rotation = Quaternion(left_flap_axis, flap)
+		bones[0].quaternion = left_rotation
+		
+		# Apply to right wing (bone[1]) - note we use right_flap_axis
+		var right_rotation = Quaternion(right_flap_axis, flap)
+		bones[1].quaternion = right_rotation
+	
+	
 	for i in offsets.size():
 		var prev = bones[i]
 		var next = bones[i + 1]
 		
 		var wantedPos = prev.global_transform * (offsets[i])
 		
-		# Clamp it, cthey dont get too far apart
+		# Clamp it, they dont get too far apart
 		var lerped = lerp(next.global_transform.origin, wantedPos, delta * damping)
 		var limit_length = (lerped - prev.global_transform.origin).normalized() * offsets[i].length()
 		var pos = prev.global_transform.origin + limit_length
