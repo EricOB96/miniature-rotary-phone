@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://du25344dwanbo"]
+
+[node name="FoodHolder" type="Node3D"]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]
+use_collision = true
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0155339, 0.357386, 0.00845337)
+operation = 2
+size = Vector3(0.676704, 1.14151, 0.830505)
