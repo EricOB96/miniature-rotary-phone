@@ -1,12 +1,27 @@
-[gd_scene load_steps=5 format=3 uid="uid://cx3f6y3hv22x4"]
+[gd_scene load_steps=7 format=3 uid="uid://cx3f6y3hv22x4"]
 
 [ext_resource type="Script" uid="uid://1ew1x1sht62k" path="res://CA2/Scripts/XR_setup.gd" id="1_10j6m"]
+[ext_resource type="Script" uid="uid://lqy7lve1pfps" path="res://behaviors/fp_controller.gd" id="1_dtpkc"]
 [ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="2_vuj32"]
 [ext_resource type="PackedScene" uid="uid://l2n30mpbkdyw" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" id="3_dtpkc"]
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="3_vuj32"]
 
-[node name="Player" type="Node3D"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vuj32"]
+radius = 0.1
+height = 1.0
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("left", "right")]
+script = ExtResource("1_dtpkc")
+left = NodePath("XROrigin3D/LeftHandController")
+right = NodePath("XROrigin3D/RightHandController")
+
+[node name="XR_Setup" type="Node3D" parent="."]
 script = ExtResource("1_10j6m")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.504819, 0)
+visible = false
+shape = SubResource("CapsuleShape3D_vuj32")
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
 

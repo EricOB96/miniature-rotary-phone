@@ -21,6 +21,7 @@ closed_pose = ExtResource("6_pxhd1")
 metadata/_custom_type_script = "uid://b6kujuoufd0rc"
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_qsevm"]
+radius = 0.08
 
 [node name="Food" type="Node3D"]
 
@@ -46,5 +47,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09, 0, -0.06)
 hand_pose = SubResource("Resource_lf23c")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="PickableObject"]
-transform = Transform3D(0.136, 0, 0, 0, 0.152, 0, 0, 0, 0.132, 0, 0, 0)
 shape = SubResource("SphereShape3D_qsevm")

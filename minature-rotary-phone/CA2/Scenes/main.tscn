@@ -5,7 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://du25344dwanbo" path="res://CA2/Scenes/FoodHolder.tscn" id="3_fkva2"]
 [ext_resource type="PackedScene" uid="uid://c0v7sptihwlsq" path="res://CA2/Scenes/Food.tscn" id="4_2pi00"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_50clp"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_2pi00"]
+size = Vector3(50, 0.3, 50)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fkva2"]
 sky_top_color = Color(0.780392, 0.454902, 0.54902, 1)
@@ -32,8 +33,7 @@ material = ExtResource("1_50clp")
 [node name="StaticBody3D" type="StaticBody3D" parent="Floor/CSGBox3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/CSGBox3D/StaticBody3D"]
-transform = Transform3D(50, 0, 0, 0, 0.3, 0, 0, 0, 50, 0, 0, 0)
-shape = SubResource("BoxShape3D_50clp")
+shape = SubResource("BoxShape3D_2pi00")
 debug_fill = false
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -41,6 +41,7 @@ environment = SubResource("Environment_xni22")
 
 [node name="Player" parent="." instance=ExtResource("2_xkxsl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.233293, 0)
+speed = 5.0
 
 [node name="FoodHolder" parent="." instance=ExtResource("3_fkva2")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.01544, 0.327053, 0)
