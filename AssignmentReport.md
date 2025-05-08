@@ -51,12 +51,12 @@ For the player character, movement and snap rotate was implemented. Hands, funct
 
 I learned how boids works anlong with pathfollow, seek and offset pursue. I learned how to make basic models with CSG shapes using, union intersect and subtraction and how to make scenes work together.
 
-I also tried a different approach from being from the country side seeing nature in all its glory and have a different idea of what nature is like for me now living in the city for years, gaining a new appreciation for nature.
+I also tried a different approach as being from the country side seeing nature in all its glory I wanted to have a different idea of what nature is like for me now living in the city for years, gaining a new appreciation for nature.
 
 
 # Whats the Difference?
 
-There is a difference between the real life deal and the simulation such as, it is quite hard to get realistic bird flight patterns and the models could look more realistic, plus there is no beating actually getting outside and feeding the birds in fresh air and the sun. The aim for this was not to get it realistic but to give the same realxing feeling as being outside and throing some bird food for the birds to eat.
+There is a difference between the real life deal and the simulation such as, it is quite hard to get realistic bird flight patterns and the models could look more realistic, plus there is no beating actually getting outside and feeding the birds in fresh air and the sun. The aim for this was not to get it realistic but to give the same relaxing feeling as being outside and throwing some bird food for the birds to eat.
 
 # Link to Demo
 
