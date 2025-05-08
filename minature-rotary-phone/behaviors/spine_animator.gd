@@ -32,15 +32,15 @@ func _ready():
 func _physics_process(delta):
 	time += delta
 	
-	# Apply flapping to BOTH wings if enabled
+	# Apply flapping if enabled
 	if enable_flapping and bones.size() >= 2:
 		var flap = sin(time * flap_speed) * flap_amplitude
 		
-		# Apply to left wing (bone[0])
+		# Apply to left wing
 		var left_rotation = Quaternion(left_flap_axis, flap)
 		bones[0].quaternion = left_rotation
 		
-		# Apply to right wing (bone[1]) - note we use right_flap_axis
+		# Apply to right wing
 		var right_rotation = Quaternion(right_flap_axis, flap)
 		bones[1].quaternion = right_rotation
 	

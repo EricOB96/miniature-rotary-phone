@@ -56,6 +56,10 @@ import/fbx/enabled.web=true
 
 singletons=["res://addons/godot-openxr/config/godot_openxr.gdnlib"]
 
+[global_group]
+
+Food=""
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true

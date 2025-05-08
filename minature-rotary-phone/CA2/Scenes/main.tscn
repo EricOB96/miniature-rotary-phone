@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cwu0rcewdfymp"]
+[gd_scene load_steps=18 format=3 uid="uid://cwu0rcewdfymp"]
 
 [ext_resource type="Material" uid="uid://5wbp50yxowyo" path="res://CA2/Materials/Grass.tres" id="1_50clp"]
 [ext_resource type="PackedScene" uid="uid://cx3f6y3hv22x4" path="res://CA2/Scenes/Player.tscn" id="2_xkxsl"]
@@ -8,8 +8,13 @@
 [ext_resource type="Script" uid="uid://cmw6n17mebkcx" path="res://behaviors/boid.gd" id="6_f1ecy"]
 [ext_resource type="PackedScene" uid="uid://bohffpj2s0uhl" path="res://CA2/Scenes/Bird.tscn" id="6_xhof7"]
 [ext_resource type="Script" uid="uid://b6jj7yxhu2hi1" path="res://behaviors/follow_path.gd" id="7_ojqdo"]
+[ext_resource type="Script" uid="uid://c2d7mphmtn1jv" path="res://behaviors/Seek.gd" id="9_vfdif"]
+[ext_resource type="Script" uid="uid://dh5y7dckr8n7" path="res://CA2/Scripts/bird_controller.gd" id="9_y1fyk"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2pi00"]
+size = Vector3(50, 0.3, 50)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f1ecy"]
 size = Vector3(50, 0.3, 50)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fkva2"]
@@ -39,16 +44,24 @@ size = Vector3(1, 1.21484, 2.29834)
 
 [node name="Floor" type="Node3D" parent="."]
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Floor"]
+[node name="Ground" type="CSGBox3D" parent="Floor"]
 use_collision = true
 size = Vector3(50, 0.2, 50)
 material = ExtResource("1_50clp")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Floor/CSGBox3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor/Ground"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/CSGBox3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/Ground/StaticBody3D"]
 shape = SubResource("BoxShape3D_2pi00")
 debug_fill = false
+
+[node name="FoodDetector" type="Node3D" parent="Floor"]
+
+[node name="Area3D" type="Area3D" parent="Floor/FoodDetector"]
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/FoodDetector/Area3D"]
+shape = SubResource("BoxShape3D_f1ecy")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_xni22")
@@ -58,29 +71,52 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.233293, 0)
 speed = 5.0
 
 [node name="FoodHolder" parent="." instance=ExtResource("3_fkva2")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.01544, 0.327053, 0)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.01544, 0.492891, 0)
+
+[node name="FoodSpawner" type="Marker3D" parent="FoodHolder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.27698, 0)
 
 [node name="Foods" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.150198, 0.86062, -0.429721)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.98686, 0.86062, -0.0324655)
 
-[node name="Food" parent="Foods" instance=ExtResource("4_2pi00")]
+[node name="Food" parent="Foods" groups=["Food"] instance=ExtResource("4_2pi00")]
 
 [node name="Path3D" type="Path3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.02797, 1.89218)
 curve = SubResource("Curve3D_xhof7")
 script = ExtResource("5_xni22")
 
-[node name="boid" type="CharacterBody3D" parent="."]
+[node name="Birds" type="Node3D" parent="."]
+
+[node name="boid" type="CharacterBody3D" parent="Birds"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.88116, -3.91761)
 script = ExtResource("6_f1ecy")
 
-[node name="FollowPath2" type="Node" parent="boid" node_paths=PackedStringArray("path")]
+[node name="FollowPath2" type="Node" parent="Birds/boid" node_paths=PackedStringArray("path")]
 script = ExtResource("7_ojqdo")
-path = NodePath("../../Path3D")
+path = NodePath("../../../Path3D")
 
-[node name="Bird" parent="boid" instance=ExtResource("6_xhof7")]
+[node name="Bird" parent="Birds/boid" instance=ExtResource("6_xhof7")]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="boid"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Birds/boid"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.880859, -0.64917)
 shape = SubResource("BoxShape3D_y1fyk")
 disabled = true
+
+[node name="Seek" type="Node" parent="Birds/boid" node_paths=PackedStringArray("target")]
+script = ExtResource("9_vfdif")
+target = NodePath("../../../Foods")
+metadata/_custom_type_script = "uid://c2d7mphmtn1jv"
+
+[node name="BirdController" type="Node3D" parent="Birds" node_paths=PackedStringArray("bird", "floor_detector", "food_spawn_point", "food_group")]
+script = ExtResource("9_y1fyk")
+bird = NodePath("../boid")
+seek_behavior_path = NodePath("../boid/Seek")
+follow_path_behavior_path = NodePath("../boid/FollowPath2")
+floor_detector = NodePath("../../Floor/FoodDetector/Area3D")
+food_scene = ExtResource("4_2pi00")
+food_spawn_point = NodePath("../../FoodHolder/FoodSpawner")
+food_group = NodePath("../../Foods")
+arrival_distance = 5.0
+
+[connection signal="body_entered" from="Floor/FoodDetector/Area3D" to="Birds/BirdController" method="_on_floor_detector_body_entered"]

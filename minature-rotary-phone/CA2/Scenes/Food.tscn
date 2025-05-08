@@ -25,7 +25,7 @@ radius = 0.08
 
 [node name="Food" type="Node3D"]
 
-[node name="PickableObject" parent="." instance=ExtResource("1_qsevm")]
+[node name="PickableObject" parent="." groups=["Food"] instance=ExtResource("1_qsevm")]
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
