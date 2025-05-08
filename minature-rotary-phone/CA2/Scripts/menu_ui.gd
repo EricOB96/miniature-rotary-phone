@@ -1,12 +1,12 @@
 extends Control
 
 func _ready():
-	# Connect the buttons to their respective functions
+	# Connect the buttons
 	$CanvasLayer/ColorRect/MarginContainer4/AddBirdBtn.connect("pressed", _on_add_bird_pressed)
 	$CanvasLayer/ColorRect/MarginContainer5/RemoveBirdBtn.connect("pressed", _on_remove_bird_pressed)
 	$CanvasLayer/ColorRect/MarginContainer3/SoundOffBtn.connect("pressed", _on_sound_button_pressed)
 	
-	# Connect to BirdManager's birds_changed signal
+	# Connect to BirdManagers birds_changed signal
 	BirdManager.connect("birds_changed", _on_birds_changed)
 	BirdManager.connect("toggle_sound_requested", _on_sound_toggled)
 	

@@ -6,8 +6,8 @@ class_name SimpleVFormation extends Node
 @export var v_angle_degrees: float = 30.0
 @export var spacing: float = 5.0
 @export var height_offset: float = 0.5
-@export var smooth_factor: float = 2.0  # How quickly birds move to their positions
-@export var rotation_smooth_factor: float = 1.6  # Separate rotation smoothing
+@export var smooth_factor: float = 2.0  # How quick birds move to their positions
+@export var rotation_smooth_factor: float = 1.6  # rotation smoothing
 
 var leader_bird: Node3D
 var followers = []
@@ -138,7 +138,6 @@ func _process(delta):
 	if !is_instance_valid(leader_bird):
 		return
 	
-	# Ensure leader basis is orthonormalized
 	var current_leader_basis = leader_bird.global_transform.basis.orthonormalized()
 	
 	# Update all follower positions based on leader
@@ -171,13 +170,13 @@ func update_follower_position(index, delta, current_leader_basis):
 	var row = ceil((index+1) / 2.0)  # Higher rows get slightly slower rotation
 	var rotation_factor = rotation_smooth_factor / (1.0 + row * 0.1)
 	
-	# Get current follower basis and ensure it's orthonormalized
+	# Get current follower basis
 	var follower_basis = follower.global_transform.basis.orthonormalized()
 	
-	# Calculate target rotation with proper normalization
+	# Calculate target rotation with normalization
 	var target_basis = current_leader_basis.orthonormalized()
 	
-	# Smoothly interpolate rotation, ensuring result is orthonormalized
+	# Smoothly interpolate rotation
 	follower.global_transform.basis = follower_basis.slerp(
 		target_basis, 
 		delta * rotation_factor

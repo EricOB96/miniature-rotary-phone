@@ -1,6 +1,6 @@
 extends Node
 
-# Signal declarations
+# Signals
 signal birds_changed(count)
 signal add_bird_requested
 signal remove_bird_requested
@@ -27,9 +27,11 @@ func update_bird_count(count: int):
 	current_bird_count = count
 	emit_signal("birds_changed", count)
 
-# Getters
+# Getter
 func get_current_bird_count() -> int:
 	return current_bird_count
+
+
 	
 func request_toggle_sound(enabled: bool = !sound_enabled):
 	sound_enabled = enabled

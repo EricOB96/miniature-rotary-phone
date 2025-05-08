@@ -1,7 +1,8 @@
-[gd_scene load_steps=26 format=3 uid="uid://cwu0rcewdfymp"]
+[gd_scene load_steps=27 format=3 uid="uid://cwu0rcewdfymp"]
 
 [ext_resource type="Material" uid="uid://5wbp50yxowyo" path="res://CA2/Materials/Grass.tres" id="1_50clp"]
 [ext_resource type="PackedScene" uid="uid://cx3f6y3hv22x4" path="res://CA2/Scenes/Player.tscn" id="2_xkxsl"]
+[ext_resource type="Script" uid="uid://1ew1x1sht62k" path="res://CA2/Scripts/XR_setup.gd" id="3_8qymg"]
 [ext_resource type="PackedScene" uid="uid://du25344dwanbo" path="res://CA2/Scenes/FoodHolder.tscn" id="3_fkva2"]
 [ext_resource type="PackedScene" uid="uid://c0v7sptihwlsq" path="res://CA2/Scenes/Food.tscn" id="4_2pi00"]
 [ext_resource type="Script" uid="uid://bfoar4ahwpbra" path="res://behaviors/PathDrawer.gd" id="5_xni22"]
@@ -79,6 +80,9 @@ environment = SubResource("Environment_xni22")
 [node name="Player" parent="." instance=ExtResource("2_xkxsl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.233293, 0)
 speed = 5.0
+
+[node name="XR_Setup2" type="Node3D" parent="Player"]
+script = ExtResource("3_8qymg")
 
 [node name="FoodHolder" parent="." instance=ExtResource("3_fkva2")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.01544, 0.492891, 0)
