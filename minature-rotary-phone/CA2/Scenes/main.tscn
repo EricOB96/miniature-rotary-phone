@@ -11,12 +11,12 @@
 [ext_resource type="Script" uid="uid://c2d7mphmtn1jv" path="res://behaviors/Seek.gd" id="9_vfdif"]
 [ext_resource type="Script" uid="uid://dh5y7dckr8n7" path="res://CA2/Scripts/bird_controller.gd" id="9_y1fyk"]
 [ext_resource type="PackedScene" uid="uid://62jsi6ni7tse" path="res://CA2/Scenes/Tree.tscn" id="11_asp3g"]
+[ext_resource type="AudioStream" uid="uid://bstygsr02ju2a" path="res://CA2/Sounds/Bird_sounds.wav" id="11_qu75q"]
 [ext_resource type="Script" uid="uid://bm5wl1vu8csw8" path="res://CA2/Scripts/flock.gd" id="12_81mc3"]
 [ext_resource type="PackedScene" uid="uid://g8ejo6jmgcn0" path="res://CA2/Scenes/BirdFlock.tscn" id="13_81mc3"]
 [ext_resource type="Script" uid="uid://h5wrviq7ex0m" path="res://behaviors/offset_pursue.gd" id="15_31ove"]
 [ext_resource type="Script" uid="uid://s5pb8njisohn" path="res://behaviors/Avoidance.gd" id="15_ai58v"]
-[ext_resource type="Script" uid="uid://baw56rnhj0aqm" path="res://behaviors/Wander.gd" id="16_qu75q"]
-[ext_resource type="Script" uid="uid://ci8facjqq07ft" path="res://behaviors/Constrain.gd" id="17_ulpnh"]
+[ext_resource type="AudioStream" uid="uid://c7j0xytt735tn" path="res://CA2/Sounds/Relaxing_music.mp3" id="17_ulpnh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2pi00"]
 size = Vector3(50, 0.3, 50)
@@ -101,6 +101,9 @@ script = ExtResource("5_xni22")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.88116, -3.91761)
 collision_mask = 7
 script = ExtResource("6_f1ecy")
+max_speed = 5.0
+damping = 0.5
+draw_gizmos = false
 
 [node name="FollowPath2" type="Node" parent="Leader/boid" node_paths=PackedStringArray("path")]
 script = ExtResource("7_ojqdo")
@@ -121,6 +124,12 @@ metadata/_custom_type_script = "uid://c2d7mphmtn1jv"
 script = ExtResource("15_ai58v")
 feeler_length = 5
 metadata/_custom_type_script = "uid://s5pb8njisohn"
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Leader/boid"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.88116, 3.91761)
+stream = ExtResource("11_qu75q")
+autoplay = true
+bus = &"BirdSounds"
 
 [node name="BirdController" type="Node3D" parent="Leader" node_paths=PackedStringArray("bird", "floor_detector", "food_spawn_point", "food_group")]
 script = ExtResource("9_y1fyk")
@@ -181,24 +190,11 @@ script = ExtResource("15_31ove")
 leader_boid = NodePath("../../Leader/boid")
 metadata/_custom_type_script = "uid://h5wrviq7ex0m"
 
-[node name="WanderFlock" type="Node3D" parent="."]
-script = ExtResource("12_81mc3")
-leader_bird_path = NodePath("../Leader/boid")
-bird_scene = ExtResource("13_81mc3")
-num_followers = 4
+[node name="Audio" type="Node3D" parent="."]
 
-[node name="Wander" type="Node" parent="WanderFlock"]
-script = ExtResource("16_qu75q")
-axis = 1
-metadata/_custom_type_script = "uid://baw56rnhj0aqm"
-
-[node name="Constrain" type="Node" parent="WanderFlock"]
-script = ExtResource("17_ulpnh")
-radius = 50.0
-center_path = NodePath("../../Center")
-metadata/_custom_type_script = "uid://ci8facjqq07ft"
-
-[node name="Center" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.8355, 33.7527)
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("17_ulpnh")
+autoplay = true
+bus = &"Music"
 
 [connection signal="body_entered" from="Floor/FoodDetector/Area3D" to="Leader/BirdController" method="_on_floor_detector_body_entered"]
