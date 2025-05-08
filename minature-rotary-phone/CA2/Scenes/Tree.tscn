@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://62jsi6ni7tse"]
+
+[ext_resource type="Material" uid="uid://bd367hqyvprbx" path="res://CA2/Materials/Branch.tres" id="1_b6bwe"]
+[ext_resource type="Material" uid="uid://bace54ncrlitw" path="res://CA2/Materials/TreeHead.tres" id="2_8f6ip"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_b6bwe"]
+size = Vector3(1, 2.70113, 1)
+
+[node name="Tree" type="Node3D"]
+
+[node name="TreeHolder" type="CSGCombiner3D" parent="."]
+
+[node name="TreeHolder" type="CSGBox3D" parent="TreeHolder"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="TreeHolder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0015564, 0.503655, 0.0113754)
+operation = 2
+size = Vector3(0.723572, 1, 0.662109)
+
+[node name="Tree" type="CSGCombiner3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Tree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0249176, 1.13881, 0.0038147)
+size = Vector3(0.464142, 1.60992, 0.499939)
+material = ExtResource("1_b6bwe")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Tree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6663, 0)
+material = ExtResource("2_8f6ip")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_mask = 7
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.862296, 0)
+shape = SubResource("BoxShape3D_b6bwe")

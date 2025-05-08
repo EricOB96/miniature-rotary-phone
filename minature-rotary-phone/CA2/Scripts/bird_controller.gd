@@ -2,11 +2,11 @@ extends Node
 class_name BirdBehaviorController
 
 # References to other nodes
-@export var bird: Node  # Your Boid bird node
-@export var seek_behavior_path: NodePath  # Path to your Seek behavior
-@export var follow_path_behavior_path: NodePath  # Path to your FollowPath behavior
-@export var floor_detector: Area3D  # Reference to your floor FoodDetector
-@export var food_scene: PackedScene  # The food scene to spawn
+@export var bird: Node  # Boid bird node
+@export var seek_behavior_path: NodePath  # Path to Seek behavior
+@export var follow_path_behavior_path: NodePath  # Path to FollowPath behavior
+@export var floor_detector: Area3D  # Reference to floor FoodDetector
+@export var food_scene: PackedScene  # The food to spawn
 @export var food_spawn_point: Node3D  # Where to spawn new food
 @export var food_group: Node  # Parent node containing food items
 
@@ -30,9 +30,7 @@ func _ready():
 	# Get behavior references
 	seek_behavior = get_node_or_null(seek_behavior_path)
 	follow_path_behavior = get_node_or_null(follow_path_behavior_path)
-	
-	# Note: Floor detector signal is already connected in the editor
-	
+
 	# Set initial state
 	set_state(BirdState.FOLLOW_PATH)
 	
@@ -50,7 +48,7 @@ func _process(delta):
 			if target_food and is_instance_valid(target_food):
 				seek_food(delta)
 			else:
-				# Target food was removed or is invalid
+				# Target food was removed
 				set_state(BirdState.RETURN_TO_PATH)
 		
 		BirdState.RETURN_TO_PATH:
@@ -67,18 +65,18 @@ func _on_floor_detector_body_entered(body):
 	
 	print("Floor detected body: ", body.name)
 	print("Is food item: ", is_food_item(body))
-	# Only respond if we're currently following the path
+	# Only respond if currently following the path
 	if current_state != BirdState.FOLLOW_PATH:
 		return
 	
 	# Check if the body is a food item
 	if is_food_item(body):
 		# Found food on ground, target it
-		print("Food detected on floor: ", body.name)
+		print("Food detected on floor: ", body.name) # DEBUG
 		target_food = body
 		set_state(BirdState.SEEK_FOOD)
 
-# Helper function to identify food items
+# function to identify food items
 func is_food_item(node):
 	# Check if it's in the Food group
 	if node.is_in_group("Food"):
@@ -90,11 +88,11 @@ func is_food_item(node):
 			if food == node:
 				return true
 	
-	# Check if it has XRToolsPickable component
+	# Check if XRToolsPickable component
 	if node.has_node("XRToolsPickable"):
 		return true
 	
-	# Check name (fallback)
+	# Check name as fallback
 	if "food" in node.name.to_lower():
 		return true
 	
@@ -168,7 +166,7 @@ func set_state(new_state):
 
 func follow_path(delta):
 	
-	# Make sure the path follow behaviors are active
+	# Ensure the path follow behaviors are active
 	if follow_path_behavior and not follow_path_behavior.enabled:
 		follow_path_behavior.enabled = true
 	
@@ -224,13 +222,13 @@ func spawn_food():
 	# Instance the food scene
 	var new_food = food_scene.instantiate()
 	
-	# Add it to the food group
+	# Add to the food group
 	food_group.add_child(new_food)
 	
 	# Position it at the spawn point
 	new_food.global_transform = food_spawn_point.global_transform
 	
-	# Add to Food group for easy identification
+	# Add to Food group for identification
 	new_food.add_to_group("Food")
 	
-	print("Spawned new food at: ", food_spawn_point.global_transform.origin)
+	print("Spawned new food at: ", food_spawn_point.global_transform.origin) # DEBUG

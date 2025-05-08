@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cwu0rcewdfymp"]
+[gd_scene load_steps=19 format=3 uid="uid://cwu0rcewdfymp"]
 
 [ext_resource type="Material" uid="uid://5wbp50yxowyo" path="res://CA2/Materials/Grass.tres" id="1_50clp"]
 [ext_resource type="PackedScene" uid="uid://cx3f6y3hv22x4" path="res://CA2/Scenes/Player.tscn" id="2_xkxsl"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://b6jj7yxhu2hi1" path="res://behaviors/follow_path.gd" id="7_ojqdo"]
 [ext_resource type="Script" uid="uid://c2d7mphmtn1jv" path="res://behaviors/Seek.gd" id="9_vfdif"]
 [ext_resource type="Script" uid="uid://dh5y7dckr8n7" path="res://CA2/Scripts/bird_controller.gd" id="9_y1fyk"]
+[ext_resource type="PackedScene" uid="uid://62jsi6ni7tse" path="res://CA2/Scenes/Tree.tscn" id="11_asp3g"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2pi00"]
 size = Vector3(50, 0.3, 50)
@@ -50,6 +51,7 @@ size = Vector3(50, 0.2, 50)
 material = ExtResource("1_50clp")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Floor/Ground"]
+collision_mask = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/Ground/StaticBody3D"]
 shape = SubResource("BoxShape3D_2pi00")
@@ -118,5 +120,26 @@ food_scene = ExtResource("4_2pi00")
 food_spawn_point = NodePath("../../FoodHolder/FoodSpawner")
 food_group = NodePath("../../Foods")
 arrival_distance = 5.0
+
+[node name="Trees" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.567369, 0)
+
+[node name="Tree" parent="Trees" instance=ExtResource("11_asp3g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.255, 0, 0)
+
+[node name="Tree2" parent="Trees" instance=ExtResource("11_asp3g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.78039, 0, 3.66365)
+
+[node name="Tree3" parent="Trees" instance=ExtResource("11_asp3g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.21464, 0, 4.75037)
+
+[node name="Tree4" parent="Trees" instance=ExtResource("11_asp3g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.15743, 0, 0)
+
+[node name="Tree5" parent="Trees" instance=ExtResource("11_asp3g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.3918, 0, -3.74469)
+
+[node name="Tree6" parent="Trees" instance=ExtResource("11_asp3g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.53337, 0, -4.72134)
 
 [connection signal="body_entered" from="Floor/FoodDetector/Area3D" to="Birds/BirdController" method="_on_floor_detector_body_entered"]
