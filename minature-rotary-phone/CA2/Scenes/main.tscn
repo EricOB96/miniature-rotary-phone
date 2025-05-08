@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cwu0rcewdfymp"]
+[gd_scene load_steps=25 format=3 uid="uid://cwu0rcewdfymp"]
 
 [ext_resource type="Material" uid="uid://5wbp50yxowyo" path="res://CA2/Materials/Grass.tres" id="1_50clp"]
 [ext_resource type="PackedScene" uid="uid://cx3f6y3hv22x4" path="res://CA2/Scenes/Player.tscn" id="2_xkxsl"]
@@ -11,6 +11,12 @@
 [ext_resource type="Script" uid="uid://c2d7mphmtn1jv" path="res://behaviors/Seek.gd" id="9_vfdif"]
 [ext_resource type="Script" uid="uid://dh5y7dckr8n7" path="res://CA2/Scripts/bird_controller.gd" id="9_y1fyk"]
 [ext_resource type="PackedScene" uid="uid://62jsi6ni7tse" path="res://CA2/Scenes/Tree.tscn" id="11_asp3g"]
+[ext_resource type="Script" uid="uid://bm5wl1vu8csw8" path="res://CA2/Scripts/flock.gd" id="12_81mc3"]
+[ext_resource type="PackedScene" uid="uid://g8ejo6jmgcn0" path="res://CA2/Scenes/BirdFlock.tscn" id="13_81mc3"]
+[ext_resource type="Script" uid="uid://h5wrviq7ex0m" path="res://behaviors/offset_pursue.gd" id="15_31ove"]
+[ext_resource type="Script" uid="uid://s5pb8njisohn" path="res://behaviors/Avoidance.gd" id="15_ai58v"]
+[ext_resource type="Script" uid="uid://baw56rnhj0aqm" path="res://behaviors/Wander.gd" id="16_qu75q"]
+[ext_resource type="Script" uid="uid://ci8facjqq07ft" path="res://behaviors/Constrain.gd" id="17_ulpnh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2pi00"]
 size = Vector3(50, 0.3, 50)
@@ -39,7 +45,7 @@ _data = {
 point_count = 5
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_y1fyk"]
-size = Vector3(1, 1.21484, 2.29834)
+size = Vector3(0.3, 0.3, 0.3)
 
 [node name="Main" type="Node3D"]
 
@@ -51,6 +57,7 @@ size = Vector3(50, 0.2, 50)
 material = ExtResource("1_50clp")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Floor/Ground"]
+collision_layer = 7
 collision_mask = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/Ground/StaticBody3D"]
@@ -88,29 +95,34 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.02797, 1.89218)
 curve = SubResource("Curve3D_xhof7")
 script = ExtResource("5_xni22")
 
-[node name="Birds" type="Node3D" parent="."]
+[node name="Leader" type="Node3D" parent="."]
 
-[node name="boid" type="CharacterBody3D" parent="Birds"]
+[node name="boid" type="CharacterBody3D" parent="Leader"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.88116, -3.91761)
+collision_mask = 7
 script = ExtResource("6_f1ecy")
 
-[node name="FollowPath2" type="Node" parent="Birds/boid" node_paths=PackedStringArray("path")]
+[node name="FollowPath2" type="Node" parent="Leader/boid" node_paths=PackedStringArray("path")]
 script = ExtResource("7_ojqdo")
 path = NodePath("../../../Path3D")
 
-[node name="Bird" parent="Birds/boid" instance=ExtResource("6_xhof7")]
+[node name="Bird" parent="Leader/boid" instance=ExtResource("6_xhof7")]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Birds/boid"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.880859, -0.64917)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Leader/boid"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.573499, 0.286249)
 shape = SubResource("BoxShape3D_y1fyk")
-disabled = true
 
-[node name="Seek" type="Node" parent="Birds/boid" node_paths=PackedStringArray("target")]
+[node name="Seek" type="Node" parent="Leader/boid" node_paths=PackedStringArray("target")]
 script = ExtResource("9_vfdif")
 target = NodePath("../../../Foods")
 metadata/_custom_type_script = "uid://c2d7mphmtn1jv"
 
-[node name="BirdController" type="Node3D" parent="Birds" node_paths=PackedStringArray("bird", "floor_detector", "food_spawn_point", "food_group")]
+[node name="Avoidance" type="Node" parent="Leader/boid"]
+script = ExtResource("15_ai58v")
+feeler_length = 5
+metadata/_custom_type_script = "uid://s5pb8njisohn"
+
+[node name="BirdController" type="Node3D" parent="Leader" node_paths=PackedStringArray("bird", "floor_detector", "food_spawn_point", "food_group")]
 script = ExtResource("9_y1fyk")
 bird = NodePath("../boid")
 seek_behavior_path = NodePath("../boid/Seek")
@@ -142,4 +154,51 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.3918, 0, -3.74469)
 [node name="Tree6" parent="Trees" instance=ExtResource("11_asp3g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.53337, 0, -4.72134)
 
-[connection signal="body_entered" from="Floor/FoodDetector/Area3D" to="Birds/BirdController" method="_on_floor_detector_body_entered"]
+[node name="Tree7" parent="Trees" instance=ExtResource("11_asp3g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10.8594)
+
+[node name="Tree8" parent="Trees" instance=ExtResource("11_asp3g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.04379, 0, -10.6464)
+
+[node name="Tree9" parent="Trees" instance=ExtResource("11_asp3g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9.68869)
+
+[node name="Tree10" parent="Trees" instance=ExtResource("11_asp3g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.85781, 0, 9.73563)
+
+[node name="Flock" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.89621, 0)
+script = ExtResource("12_81mc3")
+leader_bird_path = NodePath("../Leader/boid")
+bird_scene = ExtResource("13_81mc3")
+v_angle_degrees = 45.0
+spacing = 4.0
+height_offset = 2.0
+smooth_factor = 2.5
+
+[node name="OffsetPursue" type="Node" parent="Flock" node_paths=PackedStringArray("leader_boid")]
+script = ExtResource("15_31ove")
+leader_boid = NodePath("../../Leader/boid")
+metadata/_custom_type_script = "uid://h5wrviq7ex0m"
+
+[node name="WanderFlock" type="Node3D" parent="."]
+script = ExtResource("12_81mc3")
+leader_bird_path = NodePath("../Leader/boid")
+bird_scene = ExtResource("13_81mc3")
+num_followers = 4
+
+[node name="Wander" type="Node" parent="WanderFlock"]
+script = ExtResource("16_qu75q")
+axis = 1
+metadata/_custom_type_script = "uid://baw56rnhj0aqm"
+
+[node name="Constrain" type="Node" parent="WanderFlock"]
+script = ExtResource("17_ulpnh")
+radius = 50.0
+center_path = NodePath("../../Center")
+metadata/_custom_type_script = "uid://ci8facjqq07ft"
+
+[node name="Center" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.8355, 33.7527)
+
+[connection signal="body_entered" from="Floor/FoodDetector/Area3D" to="Leader/BirdController" method="_on_floor_detector_body_entered"]

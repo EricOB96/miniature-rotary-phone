@@ -1,8 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://ci5vi35l3no2p"]
+[gd_scene load_steps=12 format=3 uid="uid://ci5vi35l3no2p"]
 
 [ext_resource type="Script" uid="uid://dexyjr6qrrxy5" path="res://behaviors/school_config.gd" id="1"]
 [ext_resource type="Script" uid="uid://ceyci7r6qijlk" path="res://behaviors/Center.gd" id="2"]
-[ext_resource type="PackedScene" uid="uid://bacvf0rrgy0xm" path="res://behaviors/Fish1.tscn" id="3"]
 [ext_resource type="Script" uid="uid://cr5ejl6hlraib" path="res://behaviors/root.gd" id="4"]
 [ext_resource type="Script" uid="uid://s5pb8njisohn" path="res://behaviors/Avoidance.gd" id="5"]
 [ext_resource type="Script" uid="uid://lqy7lve1pfps" path="res://behaviors/fp_controller.gd" id="6"]
@@ -23,13 +22,8 @@ script = ExtResource("4")
 
 [node name="School" type="Node3D" parent="."]
 script = ExtResource("8")
-fish_scene = ExtResource("3")
 count = 100
-radius = 200
-neighbor_distance = 25
 max_neighbors = 25
-cell_size = 20
-grid_size = 1000
 
 [node name="config" type="Node" parent="."]
 script = ExtResource("1")
