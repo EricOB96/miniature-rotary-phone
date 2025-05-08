@@ -24,6 +24,8 @@ size = Vector3(1.03717, 0.206055, 0.618347)
 [node name="BirdFlock" type="CharacterBody3D"]
 transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
 script = ExtResource("1_agn7e")
+max_speed = 5.0
+draw_gizmos = false
 
 [node name="SpineAnimator" type="Node" parent="." node_paths=PackedStringArray("bones")]
 script = ExtResource("1_3blgh")
@@ -57,7 +59,7 @@ disabled = true
 [node name="WingLeft" type="CharacterBody3D" parent="."]
 
 [node name="CSGPolygon3D2" type="CSGPolygon3D" parent="WingLeft"]
-transform = Transform3D(-0.984503, -0.175367, -8.74228e-08, -0.175367, 0.984503, 0, 8.6068e-08, 1.5331e-08, -1, 0.914937, 0.729, -0.735)
+transform = Transform3D(-0.984503, -0.175367, -8.74228e-08, -0.175367, 0.984503, 0, 8.6068e-08, 1.5331e-08, -1, 1.14909, 0.729, -0.735)
 polygon = PackedVector2Array(-0.412029, 0.0294766, 0.521402, 0.201367, 0.53579, 0.191359, 0.845066, 0.140185)
 depth = 0.32
 
@@ -69,7 +71,7 @@ disabled = true
 [node name="WingRight" type="CharacterBody3D" parent="."]
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="WingRight"]
-transform = Transform3D(0.984503, 0.175367, 0, -0.175367, 0.984503, 0, 0, 0, 1, -0.827855, 0.717502, -0.451452)
+transform = Transform3D(0.984503, 0.175367, 0, -0.175367, 0.984503, 0, 0, 0, 1, -1.14372, 0.717502, -0.451452)
 polygon = PackedVector2Array(-0.412029, 0.0294766, 0.521402, 0.201367, 0.53579, 0.191359, 0.845066, 0.140185)
 depth = 0.32
 
@@ -95,6 +97,7 @@ material = ExtResource("4_ytml8")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Legs"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00927734, 0.0816816, -0.889923)
 shape = SubResource("BoxShape3D_qa3pc")
+disabled = true
 
 [node name="Tail" type="CharacterBody3D" parent="."]
 

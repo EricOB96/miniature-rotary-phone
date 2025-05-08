@@ -1,0 +1,89 @@
+[gd_scene load_steps=2 format=3 uid="uid://drtaa3gciupjv"]
+
+[ext_resource type="Script" uid="uid://m6p2ohwj7u16" path="res://CA2/Scripts/menu_ui.gd" id="1_yuaw6"]
+
+[node name="MenuUi" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yuaw6")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_right = 0.661
+anchor_bottom = 0.471
+offset_right = 9.13599
+offset_bottom = 8.27197
+color = Color(0.364706, 1, 0.380392, 0.32549)
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ColorRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.165
+anchor_top = 0.03
+anchor_right = 0.83
+anchor_bottom = 0.193
+offset_left = 0.294998
+offset_top = 0.139999
+offset_right = 0.0899658
+offset_bottom = 0.133995
+
+[node name="Label" type="Label" parent="CanvasLayer/ColorRect/MarginContainer"]
+layout_mode = 2
+text = "MENU"
+horizontal_alignment = 1
+
+[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/ColorRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.227
+anchor_top = 0.229
+anchor_right = 0.768
+anchor_bottom = 0.373
+offset_left = 0.320984
+offset_top = 66.102
+offset_right = 0.0640259
+offset_bottom = 59.974
+
+[node name="SoundOffBtn" type="Button" parent="CanvasLayer/ColorRect/MarginContainer3"]
+layout_mode = 2
+text = "SOUNDS OFF"
+
+[node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/ColorRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.227
+anchor_top = 0.229
+anchor_right = 0.768
+anchor_bottom = 0.373
+offset_left = 0.320984
+offset_top = 139.102
+offset_right = -191.936
+offset_bottom = 128.974
+
+[node name="AddBirdBtn" type="Button" parent="CanvasLayer/ColorRect/MarginContainer4"]
+layout_mode = 2
+text = "Add Bird
+"
+
+[node name="MarginContainer5" type="MarginContainer" parent="CanvasLayer/ColorRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.227
+anchor_top = 0.229
+anchor_right = 0.768
+anchor_bottom = 0.373
+offset_left = 190.321
+offset_top = 139.102
+offset_right = 5.06403
+offset_bottom = 128.974
+
+[node name="RemoveBirdBtn" type="Button" parent="CanvasLayer/ColorRect/MarginContainer5"]
+layout_mode = 2
+text = "Remove Bird
+"

@@ -17,6 +17,6 @@ func is_enabled():
 func on_draw_gizmos():
 	pass
 	
-#func _process(delta):	
-#	if draw_gizmos and enabled:
-#		on_draw_gizmos()
+func _process(delta):	
+	if draw_gizmos and enabled:
+		on_draw_gizmos()

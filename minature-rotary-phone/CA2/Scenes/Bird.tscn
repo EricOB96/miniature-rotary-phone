@@ -52,9 +52,10 @@ shape = SubResource("BoxShape3D_cg440")
 disabled = true
 
 [node name="WingLeft" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0109826, 0, 0)
 
 [node name="CSGPolygon3D2" type="CSGPolygon3D" parent="WingLeft"]
-transform = Transform3D(-0.984503, -0.175367, -8.74228e-08, -0.175367, 0.984503, 0, 8.6068e-08, 1.5331e-08, -1, 0.914937, 0.729, -0.735)
+transform = Transform3D(-0.984503, -0.175367, -8.74228e-08, -0.175367, 0.984503, 0, 8.6068e-08, 1.5331e-08, -1, 0.753345, 0.729, -0.90071)
 polygon = PackedVector2Array(-0.412029, 0.0294766, 0.521402, 0.201367, 0.53579, 0.191359, 0.845066, 0.140185)
 depth = 0.32
 
@@ -64,9 +65,10 @@ shape = SubResource("BoxShape3D_8eq8b")
 disabled = true
 
 [node name="WingRight" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.020201, 0, 0)
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="WingRight"]
-transform = Transform3D(0.984503, 0.175367, 0, -0.175367, 0.984503, 0, 0, 0, 1, -0.827855, 0.717502, -0.451452)
+transform = Transform3D(0.984503, 0.175367, 0, -0.175367, 0.984503, 0, 0, 0, 1, -0.842902, 0.717502, -0.588833)
 polygon = PackedVector2Array(-0.412029, 0.0294766, 0.521402, 0.201367, 0.53579, 0.191359, 0.845066, 0.140185)
 depth = 0.32
 

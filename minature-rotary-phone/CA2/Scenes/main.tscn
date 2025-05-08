@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cwu0rcewdfymp"]
+[gd_scene load_steps=26 format=3 uid="uid://cwu0rcewdfymp"]
 
 [ext_resource type="Material" uid="uid://5wbp50yxowyo" path="res://CA2/Materials/Grass.tres" id="1_50clp"]
 [ext_resource type="PackedScene" uid="uid://cx3f6y3hv22x4" path="res://CA2/Scenes/Player.tscn" id="2_xkxsl"]
@@ -15,8 +15,9 @@
 [ext_resource type="Script" uid="uid://bm5wl1vu8csw8" path="res://CA2/Scripts/flock.gd" id="12_81mc3"]
 [ext_resource type="PackedScene" uid="uid://g8ejo6jmgcn0" path="res://CA2/Scenes/BirdFlock.tscn" id="13_81mc3"]
 [ext_resource type="Script" uid="uid://h5wrviq7ex0m" path="res://behaviors/offset_pursue.gd" id="15_31ove"]
-[ext_resource type="Script" uid="uid://s5pb8njisohn" path="res://behaviors/Avoidance.gd" id="15_ai58v"]
 [ext_resource type="AudioStream" uid="uid://c7j0xytt735tn" path="res://CA2/Sounds/Relaxing_music.mp3" id="17_ulpnh"]
+[ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="18_8qymg"]
+[ext_resource type="PackedScene" uid="uid://drtaa3gciupjv" path="res://CA2/Scenes/Menu_UI.tscn" id="19_aos15"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2pi00"]
 size = Vector3(50, 0.3, 50)
@@ -39,7 +40,7 @@ sky = SubResource("Sky_2pi00")
 
 [sub_resource type="Curve3D" id="Curve3D_xhof7"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 9.6917, 0, -17.5176, 0.395, 0, 0, 0, 0, 0, 18.845, 0, 0, 0, 0, 0, 0, 0, 0, -21.2898, 0, 0, 0, 0, 0, 0, 0, 0, 3.13, 11.2917, 7.172, 0, 0, 0, 0, 0, 0, 1.65355, 3.45621, -17.1298),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -2.97133, -3.80831, -37.3947, 0.395, 0, 0, 0, 0, 0, 29.2667, 0, -26.3667, 0, 0, 0, 0, 0, 0, -20.6887, 0, -18.2773, 0, 0, 0, 0, 0, 0, -23.6785, 11.2917, 8.85479, 0, 0, 0, 0, 0, 0, -7.41773, 14.6676, 7.91684),
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0)
 }
 point_count = 5
@@ -91,39 +92,38 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.98686, 0.86062, -0.0324655)
 [node name="Food" parent="Foods" groups=["Food"] instance=ExtResource("4_2pi00")]
 
 [node name="Path3D" type="Path3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.02797, 1.89218)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.7674, 3.63201)
 curve = SubResource("Curve3D_xhof7")
 script = ExtResource("5_xni22")
 
 [node name="Leader" type="Node3D" parent="."]
+transform = Transform3D(-0.999199, 0, -0.0400097, 0, 1, 0, 0.0400097, 0, -0.999199, 0, 3.48811, 16.2116)
 
 [node name="boid" type="CharacterBody3D" parent="Leader"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.88116, -3.91761)
 collision_mask = 7
 script = ExtResource("6_f1ecy")
 max_speed = 5.0
+banking = 0.5
 damping = 0.5
 draw_gizmos = false
 
 [node name="FollowPath2" type="Node" parent="Leader/boid" node_paths=PackedStringArray("path")]
 script = ExtResource("7_ojqdo")
 path = NodePath("../../../Path3D")
+draw_gizmos = false
 
 [node name="Bird" parent="Leader/boid" instance=ExtResource("6_xhof7")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Leader/boid"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.573499, 0.286249)
 shape = SubResource("BoxShape3D_y1fyk")
+disabled = true
 
 [node name="Seek" type="Node" parent="Leader/boid" node_paths=PackedStringArray("target")]
 script = ExtResource("9_vfdif")
 target = NodePath("../../../Foods")
+draw_gizmos = false
 metadata/_custom_type_script = "uid://c2d7mphmtn1jv"
-
-[node name="Avoidance" type="Node" parent="Leader/boid"]
-script = ExtResource("15_ai58v")
-feeler_length = 5
-metadata/_custom_type_script = "uid://s5pb8njisohn"
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Leader/boid"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.88116, 3.91761)
@@ -180,14 +180,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.89621, 0)
 script = ExtResource("12_81mc3")
 leader_bird_path = NodePath("../Leader/boid")
 bird_scene = ExtResource("13_81mc3")
-v_angle_degrees = 45.0
-spacing = 4.0
-height_offset = 2.0
-smooth_factor = 2.5
 
 [node name="OffsetPursue" type="Node" parent="Flock" node_paths=PackedStringArray("leader_boid")]
 script = ExtResource("15_31ove")
 leader_boid = NodePath("../../Leader/boid")
+draw_gizmos = false
 metadata/_custom_type_script = "uid://h5wrviq7ex0m"
 
 [node name="Audio" type="Node3D" parent="."]
@@ -196,5 +193,13 @@ metadata/_custom_type_script = "uid://h5wrviq7ex0m"
 stream = ExtResource("17_ulpnh")
 autoplay = true
 bus = &"Music"
+
+[node name="Menu" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.824925, -1.55784)
+
+[node name="Viewport2Din3D" parent="Menu" instance=ExtResource("18_8qymg")]
+scene = ExtResource("19_aos15")
+viewport_size = Vector2(768, 768)
+scene_properties_keys = PackedStringArray("menu_ui.gd")
 
 [connection signal="body_entered" from="Floor/FoodDetector/Area3D" to="Leader/BirdController" method="_on_floor_detector_body_entered"]
