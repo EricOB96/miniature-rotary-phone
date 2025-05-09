@@ -1,7 +1,7 @@
 # Bird Feeding Simulation
 # Eric O'Brien
 #C21750829
-( CA can be found in branch CA2 )
+( CA can be found in branch CA2 https://github.com/EricOB96/miniature-rotary-phone/tree/CA2/minature-rotary-phone/CA2 )
 
 This is my Assignment where I made a Bird feeding simulation in VR. The idea came to when I was in Smithfield Square and I seen many signs around saying "Do not feed birds" .
 
